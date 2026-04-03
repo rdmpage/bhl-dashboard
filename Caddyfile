@@ -1,0 +1,5 @@
+# Replace with your actual domain name.
+# Caddy automatically provisions a TLS certificate via Let's Encrypt.
+{$DOMAIN} {
+    reverse_proxy metabase:3000
+}

@@ -1,0 +1,9 @@
+.env
+.DS_Store
+
+# BHL data files — large, downloaded via download-data.sh
+data/*.sqlite
+data/*.db
+data/*.zip
+data/*.tsv
+data/*.txt

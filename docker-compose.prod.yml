@@ -1,0 +1,27 @@
+# Production overrides — run with:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  metabase:
+    ports: !reset []   # Caddy handles incoming traffic; don't expose 3000 directly
+    restart: always
+
+  caddy:
+    image: caddy:alpine
+    container_name: bhl-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"  # HTTP/3
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      metabase:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  caddy-data:
+  caddy-config:
