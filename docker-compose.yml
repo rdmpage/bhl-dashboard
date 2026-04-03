@@ -5,10 +5,11 @@ services:
     ports:
       - "${METABASE_PORT:-3000}:3000"
     volumes:
-      - metabase-data:/metabase-data
+      - ./metabase-data:/metabase-data
       - ./data:/data:ro
     environment:
       MB_DB_FILE: /metabase-data/metabase.db
+      MB_SITE_URL: "${MB_SITE_URL:-http://localhost:3000}"
       JAVA_TIMEZONE: UTC
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
@@ -18,5 +19,3 @@ services:
       start_period: 60s
     restart: unless-stopped
 
-volumes:
-  metabase-data:

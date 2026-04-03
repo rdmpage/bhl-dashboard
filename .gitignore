@@ -1,8 +1,11 @@
 .env
 .DS_Store
+metabase-data/
 
 # BHL data files — large, downloaded via download-data.sh
 data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
 data/*.db
 data/*.zip
 data/*.tsv
