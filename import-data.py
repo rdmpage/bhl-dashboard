@@ -35,7 +35,7 @@ def find_tsv_files(data_dir: Path, tables: set[str]) -> dict[str, Path]:
 
 def import_tsv(conn: sqlite3.Connection, table: str, path: Path) -> int:
     """Import a TSV file into the named table. Returns row count inserted."""
-    with path.open(encoding="utf-8", errors="replace") as fh:
+    with path.open(encoding="utf-8-sig", newline="", errors="replace") as fh:
         reader = csv.DictReader(fh, delimiter="\t")
         if reader.fieldnames is None:
             print(f"  WARNING: {path.name} appears empty, skipping.")
@@ -89,7 +89,7 @@ def main():
 
     print(f"Creating database: {DB_FILE}\n")
     conn = sqlite3.connect(DB_FILE)
-    conn.executescript("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;")
+    conn.executescript("PRAGMA journal_mode=DELETE; PRAGMA synchronous=NORMAL;")
 
     # Apply schema (tables + indexes)
     conn.executescript(schema_sql)
